@@ -48,4 +48,29 @@ public class UserRepository : IUserRepository
         
         await cmd.ExecuteNonQueryAsync();
     }
+
+    public async Task<UserData> GetUserByUsername(string username)
+    {
+        await using var conn = new NpgsqlConnection(_connectionString);
+        await conn.OpenAsync();
+        
+        await using var cmd = new NpgsqlCommand("SELECT id, username, password, role, hwid, subscription FROM users WHERE username = @username", conn);
+        cmd.Parameters.AddWithValue("username", username);
+        
+        await using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return new UserData
+            {
+                Id = reader.GetInt32(0),
+                Username = reader.GetString(1),
+                PasswordHash = reader.GetString(2),
+                Role = reader.IsDBNull(3) ? "User" : reader.GetString(3),
+                Hwid = reader.IsDBNull(4) ? null : reader.GetString(4),
+                Subscription = reader.IsDBNull(5) ? null : reader.GetString(5)
+            };
+        }
+        
+        return null;
+    }
 }

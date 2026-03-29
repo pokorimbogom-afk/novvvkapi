@@ -31,4 +31,35 @@ public class UserController : ControllerBase
 
         return Ok(new { success = true });
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        if (request == null || string.IsNullOrEmpty(request.Login) || string.IsNullOrEmpty(request.Pass))
+        {
+            return BadRequest(new { success = false, error = "Invalid data" });
+        }
+
+        var user = await _repository.GetUserByUsername(request.Login);
+        if (user == null)
+        {
+            return Unauthorized(new { success = false, error = "Invalid credentials" });
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(request.Pass, user.PasswordHash))
+        {
+            return Unauthorized(new { success = false, error = "Invalid credentials" });
+        }
+
+        return Ok(new { 
+            success = true, 
+            user = new {
+                id = user.Id,
+                login = user.Username,
+                role = user.Role,
+                hwid = user.Hwid,
+                subscription = user.Subscription
+            }
+        });
+    }
 }
