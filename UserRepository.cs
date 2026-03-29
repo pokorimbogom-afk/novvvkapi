@@ -8,8 +8,20 @@ public class UserRepository : IUserRepository
 
     public UserRepository()
     {
-        _connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") 
-            ?? "Host=localhost;Database=pastadb;Username=postgres;Password=yourpassword";
+        var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+        
+        if (!string.IsNullOrEmpty(databaseUrl) && databaseUrl.StartsWith("postgresql://"))
+        {
+            // Parse Render.com PostgreSQL URL format
+            var uri = new Uri(databaseUrl);
+            _connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true";
+        }
+        else
+        {
+            _connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
+                ?? databaseUrl
+                ?? "Host=localhost;Database=pastadb;Username=postgres;Password=yourpassword";
+        }
     }
 
     public async Task<bool> UserExists(string username)
