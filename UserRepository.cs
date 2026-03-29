@@ -54,7 +54,7 @@ public class UserRepository : IUserRepository
         await using var conn = new NpgsqlConnection(_connectionString);
         await conn.OpenAsync();
         
-        await using var cmd = new NpgsqlCommand("SELECT id, username, password, role, hwid, subscription FROM users WHERE username = @username", conn);
+        await using var cmd = new NpgsqlCommand("SELECT id, username, password_hash, role, hwid, subscription FROM users WHERE username = @username", conn);
         cmd.Parameters.AddWithValue("username", username);
         
         await using var reader = await cmd.ExecuteReaderAsync();
