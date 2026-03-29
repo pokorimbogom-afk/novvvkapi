@@ -14,7 +14,8 @@ public class UserRepository : IUserRepository
         {
             // Parse Render.com PostgreSQL URL format
             var uri = new Uri(databaseUrl);
-            _connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true";
+            var port = uri.Port > 0 ? uri.Port : 5432;
+            _connectionString = $"Host={uri.Host};Port={port};Database={uri.AbsolutePath.TrimStart('/')};Username={uri.UserInfo.Split(':')[0]};Password={uri.UserInfo.Split(':')[1]};SSL Mode=Require;Trust Server Certificate=true";
         }
         else
         {
