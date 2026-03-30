@@ -6,4 +6,8 @@
     <PackageReference Include="Npgsql" Version="8.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="launcher\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="loader\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
