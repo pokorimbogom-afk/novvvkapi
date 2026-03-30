@@ -21,20 +21,5 @@ var app = builder.Build();
 // Используем CORS
 app.UseCors("AllowAll");
 
-// Добавляем статические файлы для launcher и loader
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "launcher")),
-    RequestPath = "/launcher"
-});
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "loader")),
-    RequestPath = "/loader"
-});
-
 app.MapControllers();
 app.Run();
