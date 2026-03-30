@@ -5,6 +5,7 @@ public interface IUserRepository
     Task<bool> UserExists(string username);
     Task CreateUser(string username, string passwordHash);
     Task<UserData> GetUserByUsername(string username);
+    Task<ChangelogData> GetActiveChangelog();
 }
 
 public class UserData
@@ -15,4 +16,10 @@ public class UserData
     public string Role { get; set; }
     public string Hwid { get; set; }
     public string Subscription { get; set; }
+}
+
+public class ChangelogData
+{
+    public string Date { get; set; }
+    public string Content { get; set; }
 }

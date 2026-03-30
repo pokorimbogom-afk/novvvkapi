@@ -73,4 +73,24 @@ public class UserRepository : IUserRepository
         
         return null;
     }
+
+    public async Task<ChangelogData> GetActiveChangelog()
+    {
+        await using var conn = new NpgsqlConnection(_connectionString);
+        await conn.OpenAsync();
+        
+        await using var cmd = new NpgsqlCommand("SELECT date, content FROM changelog WHERE is_active = true ORDER BY created_at DESC LIMIT 1", conn);
+        
+        await using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return new ChangelogData
+            {
+                Date = reader.GetString(0),
+                Content = reader.GetString(1)
+            };
+        }
+        
+        return null;
+    }
 }

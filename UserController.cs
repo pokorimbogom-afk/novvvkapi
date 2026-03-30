@@ -62,4 +62,17 @@ public class UserController : ControllerBase
             }
         });
     }
+
+    [HttpGet("changelog.txt")]
+    public async Task<IActionResult> GetChangelog()
+    {
+        var changelogData = await _repository.GetActiveChangelog();
+        if (changelogData == null)
+        {
+            return Content("#date=Нет данных\n❌ История обновлений пуста", "text/plain; charset=utf-8");
+        }
+        
+        var changelog = $"#date={changelogData.Date}\n{changelogData.Content}";
+        return Content(changelog, "text/plain; charset=utf-8");
+    }
 }
