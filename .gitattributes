@@ -1,1 +1,2 @@
 launcher/*.zip filter=lfs diff=lfs merge=lfs -text
+launcher/*.exe filter=lfs diff=lfs merge=lfs -text
