@@ -1,0 +1,19 @@
+{
+  "downloadUrl": "https://novvvkapi.onrender.com/launcher/client.zip",
+  "versionUrl": "https://novvvkapi.onrender.com/launcher/version.txt",
+  "clientFolder": "C:\\NovvvkDLC",
+  "apiUrl": "https://novvvkapi.onrender.com/api/login",
+  "apiHost": "novvvkapi.onrender.com",
+  "changelogUrl": "https://novvvkapi.onrender.com/api/changelog.txt",
+  "changelogPath": "/api/changelog.txt",
+  "versionPath": "/launcher/version.txt",
+  "adminKey": "lalala",
+  "name": "NovvvkDLC",
+  "version": "Version 1.21.4",
+  "web": "https://yougamecorm.ru",
+  "telegram": "telegram.me/",
+  "discord": "https://discord.gg/",
+  "color1": "rgb(220, 53, 69)",
+  "color2": "rgb(167, 29, 42)",
+  "snow": "true"
+}
